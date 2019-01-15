@@ -4,6 +4,8 @@ using System;
 public static class CelestialCoordinates
 {
 
+    public static DateTime time;
+
     /// <summary>
     /// Return an angle in the range of 0 -> 2PI Radians
     /// </summary>
@@ -54,7 +56,7 @@ public static class CelestialCoordinates
 
         double lw = Mathf.Deg2Rad * _longitude * -1;
         DateTime epoch = new DateTime(2000, 1, 1, 12, 0, 0);
-        TimeSpan j2000TS = DateTime.UtcNow - epoch;
+        TimeSpan j2000TS = time - epoch;
         double j2000 = j2000TS.TotalDays;
 
         double L = Mathf.Deg2Rad * (218.316f + 13.176396f * j2000), // ecliptic longitude
@@ -106,7 +108,7 @@ public static class CelestialCoordinates
 
         //1. Days elapsed since J2000 (1st january 2000 at 12:00)
         DateTime epoch = new DateTime(2000, 1, 1, 12, 0, 0);
-        TimeSpan j2000TS = DateTime.UtcNow - epoch;
+        TimeSpan j2000TS = time - epoch;
         double j2000 = j2000TS.TotalDays;
 
         //2. Centuries since J2000
@@ -316,12 +318,12 @@ public static class CelestialCoordinates
 
         //1. Days elapsed since J2000 (1st january 2000 at 12:00)
         DateTime epoch = new DateTime(2000, 1, 1, 12, 0, 0);
-        TimeSpan j2000TS = DateTime.UtcNow - epoch;
+        TimeSpan j2000TS = time - epoch;
         double j2000 = j2000TS.TotalDays;
 
         //2. UT to Decimals
         //Note: time values has to be sent from telescope
-        double curTimeUTC = DateTime.UtcNow.TimeOfDay.TotalHours;
+        double curTimeUTC = time.TimeOfDay.TotalHours;
 
         //3. Get Long East = + / West = -
         double longitude = _longitude;
