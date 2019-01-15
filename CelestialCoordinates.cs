@@ -1,6 +1,15 @@
 ﻿using UnityEngine;
 using System;
 
+public struct HorizontalCoordinates
+{
+    public double azimuth;
+    public double altitude;
+    public double distance;
+
+    public double zenith { get { return 90 - altitude; } } // not sure about this one
+}
+
 public static class CelestialCoordinates
 {
     /// <summary>
@@ -45,7 +54,7 @@ public static class CelestialCoordinates
     /// <returns>The horizontal coordinatesof the moon</returns>
     /// <param name="_longitude">User longitude in degree</param>
     /// <param name="_latitude">User latitude in degree</param>
-    public static Vector3 CalculateHorizontalCoordinatesMoon(DateTime time, double _longitude, double _latitude)
+    public static HorizontalCoordinates CalculateHorizontalCoordinatesMoon(DateTime time, double _longitude, double _latitude)
     {
 
         //Convert the latitude to radians
@@ -83,7 +92,14 @@ public static class CelestialCoordinates
         if (Math.Sin(HA) > 0f)
             azimuth = 360f - azimuth;
 
-        return new Vector3((float)altitude, (float)azimuth, (float)dt / 500000f);
+        HorizontalCoordinates coordinates = new HorizontalCoordinates()
+        {
+            azimuth = azimuth,
+            altitude = altitude,
+            distance = dt
+        };
+
+        return coordinates;
     }
 
 
@@ -95,13 +111,11 @@ public static class CelestialCoordinates
     /// <param name="_longitude">User longitude in degree</param>
     /// <param name="_latitude">User latitude in degree</param> 
     /// <param name="_name">The planet's name</param> 
-    public static Vector3 CalculateHorizontalCoordinatesPlanets(DateTime time, double _longitude, double _latitude, string _name)
+    public static HorizontalCoordinates CalculateHorizontalCoordinatesPlanets(DateTime time, double _longitude, double _latitude, string _name)
     {
 
         //Convert the latitude to radians
         _latitude *= Mathf.Deg2Rad;
-
-        Vector3 coordinates = new Vector3(0, 0, 0);
 
         //1. Days elapsed since J2000 (1st january 2000 at 12:00)
         DateTime epoch = new DateTime(2000, 1, 1, 12, 0, 0);
@@ -284,9 +298,12 @@ public static class CelestialCoordinates
         if (Math.Sin(HA) > 0f)
             azimuth = 360f - azimuth;
 
-        coordinates.x = (float)altitude;
-        coordinates.y = (float)azimuth;
-        coordinates.z = (float)distance;
+        HorizontalCoordinates coordinates = new HorizontalCoordinates()
+        {
+            azimuth = azimuth,
+            altitude = altitude,
+            distance = distance
+        };
 
         return coordinates;
     }
@@ -300,13 +317,11 @@ public static class CelestialCoordinates
     /// <param name="_latitude">User latitude in degree</param> 
     /// <param name="_ra">Right Ascension (in degree)</param>
     /// <param name="_dec">Declinaison (in degree)</param> 
-    public static Vector2 CalculateHorizontalCoordinatesStar(DateTime time, double _longitude, double _latitude, float _ra, float _dec)
+    public static HorizontalCoordinates CalculateHorizontalCoordinatesStar(DateTime time, double _longitude, double _latitude, float _ra, float _dec)
     {
 
         //Convert the latitude to radians
         _latitude *= Mathf.Deg2Rad;
-
-        Vector2 coordinates = new Vector2(0, 0);
 
         //The right ascension is already in degree in database
         //the declinaison not so convert it to degree as well
@@ -355,8 +370,12 @@ public static class CelestialCoordinates
         if (Math.Sin(HA) > 0.0f)
             azimuthDeg = 360.0f - azimuthDeg;
 
-        coordinates.x = (float)altitudeDeg;
-        coordinates.y = (float)azimuthDeg;
+        HorizontalCoordinates coordinates = new HorizontalCoordinates()
+        {
+            azimuth = azimuthDeg,
+            altitude = altitudeDeg,
+            distance = double.PositiveInfinity
+        };
 
         return coordinates;
     }
