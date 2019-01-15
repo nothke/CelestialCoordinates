@@ -3,9 +3,6 @@ using System;
 
 public static class CelestialCoordinates
 {
-
-    public static DateTime time;
-
     /// <summary>
     /// Return an angle in the range of 0 -> 2PI Radians
     /// </summary>
@@ -48,7 +45,7 @@ public static class CelestialCoordinates
     /// <returns>The horizontal coordinatesof the moon</returns>
     /// <param name="_longitude">User longitude in degree</param>
     /// <param name="_latitude">User latitude in degree</param>
-    public static Vector3 CalculateHorizontalCoordinatesMoon(double _longitude, double _latitude)
+    public static Vector3 CalculateHorizontalCoordinatesMoon(DateTime time, double _longitude, double _latitude)
     {
 
         //Convert the latitude to radians
@@ -98,7 +95,7 @@ public static class CelestialCoordinates
     /// <param name="_longitude">User longitude in degree</param>
     /// <param name="_latitude">User latitude in degree</param> 
     /// <param name="_name">The planet's name</param> 
-    public static Vector3 CalculateHorizontalCoordinatesPlanets(double _longitude, double _latitude, string _name)
+    public static Vector3 CalculateHorizontalCoordinatesPlanets(DateTime time, double _longitude, double _latitude, string _name)
     {
 
         //Convert the latitude to radians
@@ -303,7 +300,7 @@ public static class CelestialCoordinates
     /// <param name="_latitude">User latitude in degree</param> 
     /// <param name="_ra">Right Ascension (in degree)</param>
     /// <param name="_dec">Declinaison (in degree)</param> 
-    public static Vector2 CalculateHorizontalCoordinatesStar(double _longitude, double _latitude, float _ra, float _dec)
+    public static Vector2 CalculateHorizontalCoordinatesStar(DateTime time, double _longitude, double _latitude, float _ra, float _dec)
     {
 
         //Convert the latitude to radians
